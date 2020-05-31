@@ -13,29 +13,32 @@ class Processor(threading.Thread):
     self.L1 = L1(number, chip)
 
   def run(self):
-    fullInstruction = generateInstruction(self).split(' ')
-    kind = fullInstruction[1]
-    if(kind == "WRITE"):
-      memAndData = fullInstruction[2].split(";")
-      self.processWrite(memAndData[0], memAndData[1])
-      self.chip.L2
-    if(kind == "READ"):
-      self.processRead(fullInstruction[2])
-    if(kind == "CALC"):
-      self.processCalc()
+    while(1):
+      fullInstructionNoSplit = generateInstruction(self)
+      fullInstruction = fullInstructionNoSplit.split(' ')
+      self.chip.UIManager.updateInstruction(self.chip.chip, self.number, fullInstructionNoSplit)
+      kind = fullInstruction[1]
+      if(kind == "WRITE"):
+        memAndData = fullInstruction[2].split(";")
+        self.processWrite(memAndData[0], memAndData[1])
+        self.chip.L2
+      if(kind == "READ"):
+        self.processRead(fullInstruction[2])
+      if(kind == "CALC"):
+        self.processCalc()
   
   def processWrite(self, memDir, data):
     print("Writing " + data + " on " + memDir)
     self.L1.write(memDir, data)
-    time.sleep(6)
+    time.sleep(15)
   
   def processRead(self, memDir):
     print("Read")
-    time.sleep(2)
+    time.sleep(5)
   
   def processCalc(self):
     print("Calculating")
-    time.sleep(3)
+    time.sleep(10)
       
 
 def generateInstruction(self):

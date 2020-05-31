@@ -11,6 +11,7 @@ class L1:
     self.memory = []
     for i in range(2):
       self.memory.append(cacheBlock())
+    self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)
 
   def write(self, memDir, data):
     ## Correspondencia directa
@@ -20,7 +21,7 @@ class L1:
     self.memory[cacheBlock]._data = data
     self.memory[cacheBlock]._state = self.nextStateCPU("write", memDir)
 
-    self.printMemory()
+    self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)
 
   def nextStateCPU(self, operation, memDir):
     cacheBlock = self.onMemory(memDir)
@@ -44,10 +45,6 @@ class L1:
         nextState = "S"
     
     return nextState
-
-  def printMemory(self):
-    for i in range(len(self.memory)):
-      print(str(i) + "  " + str(self.memory[i]._memDir) + "  " + self.memory[i]._state + "  " + self.memory[i]._data)
 
   def nextStateBus(self, busMsg, cacheBlock):
     nextState = "I"
