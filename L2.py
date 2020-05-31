@@ -1,6 +1,6 @@
 class cacheBlockDir:
   def __init__(self):
-    self._state = "I"
+    self._state = "DI"
     self._memDir = "0"
     self._data = "0"
     self._owners = []

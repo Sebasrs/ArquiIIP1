@@ -13,10 +13,30 @@ class Processor(threading.Thread):
     self.L1 = L1(number, chip)
 
   def run(self):
-    print("Procesor " + str(self.number) + " from chip " + str(self.chip) + " online")
-    while(1):
-      instruction = generateInstruction(self)
-      time.sleep(2)
+    fullInstruction = generateInstruction(self).split(' ')
+    kind = fullInstruction[1]
+    if(kind == "WRITE"):
+      memAndData = fullInstruction[2].split(";")
+      self.processWrite(memAndData[0], memAndData[1])
+      self.chip.L2
+    if(kind == "READ"):
+      self.processRead(fullInstruction[2])
+    if(kind == "CALC"):
+      self.processCalc()
+  
+  def processWrite(self, memDir, data):
+    print("Writing " + data + " on " + memDir)
+    self.L1.write(memDir, data)
+    time.sleep(6)
+  
+  def processRead(self, memDir):
+    print("Read")
+    time.sleep(2)
+  
+  def processCalc(self):
+    print("Calculating")
+    time.sleep(3)
+      
 
 def generateInstruction(self):
   instructionIndex = np.clip(np.random.poisson(1,1), a_min=0, a_max=2)[0]
@@ -25,13 +45,13 @@ def generateInstruction(self):
 
   if(pickedInstruction == "READ"):
     memDir = np.clip(np.random.poisson(7,1), a_min=0, a_max=15)[0]
-    return("P" + str(self.number) + "," + str(self.chip) + ": " + str(pickedInstruction) + " " + "{:04b}".format(memDir))
+    return("P" + str(self.number) + "," + str(self.chip.chip) + ": " + str(pickedInstruction) + " " + "{:04b}".format(memDir))
   elif(pickedInstruction == "CALC"):
-    return("P" + str(self.number) + "," + str(self.chip) + ": " + str(pickedInstruction))
+    return("P" + str(self.number) + "," + str(self.chip.chip) + ": " + str(pickedInstruction))
   elif(pickedInstruction == "WRITE"):
     memDir = np.clip(np.random.poisson(7,1), a_min=0, a_max=15)[0]
-    data = hex(int(generateRandomBits(16), 2))
-    return("P" + str(self.number) + "," + str(self.chip) + ": " + str(pickedInstruction) + " " + "{:04b}".format(memDir) + ";" + data[2:].upper())
+    data = hex(int(generateRandomBits(32), 2))
+    return("P" + str(self.number) + "," + str(self.chip.chip) + ": " + str(pickedInstruction) + " " + "{:04b}".format(memDir) + ";" + data[2:].upper())
 
 def generateRandomBits(bitAmount):
   binaryNumber = ""

@@ -1,6 +1,8 @@
 class memoryBlock:
   def __init__(self):
     self._data = "0"
+    self.state = "DI"
+    self.owners = ""
 
 class Memory:
   def __init__(self):
