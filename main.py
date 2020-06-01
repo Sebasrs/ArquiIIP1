@@ -73,8 +73,10 @@ UIManager = FrontEndManager(stringvarsChips[0], stringvarsChips[1], stringvarsCh
 
 mainMemory = Memory(UIManager)
 
-chip0 = Chip(0, mainMemory, UIManager)
-chip1 = Chip(1, mainMemory, UIManager)
+connectionBus = []
+
+chip0 = Chip(0, mainMemory, UIManager, connectionBus)
+chip1 = Chip(1, mainMemory, UIManager, connectionBus)
 
 chip0.start()
 chip1.start()

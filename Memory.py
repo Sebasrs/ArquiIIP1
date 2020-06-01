@@ -10,10 +10,14 @@ class Memory:
     self.memory = []
     for i in range(16):
       self.memory.append(memoryBlock("{:04b}".format(i)))
-    UIManager.updateTableMainMemory(self.memory)
+    self.UIManager = UIManager
+    self.UIManager.updateTableMainMemory(self.memory)
 
-  def write(self, memDir, data):
-    self.memory[memDir]._data = data
+  def write(self, memDir, data, chipNumber):
+    self.memory[int(memDir,2)]._data = data
+    self.memory[int(memDir,2)]._state = "DM"
+    self.memory[int(memDir,2)]._owners = ["C" + str(chipNumber)]
+    self.UIManager.updateTableMainMemory(self.memory)
 
   def read(self, memDir):
     return self.memory[memDir]._data

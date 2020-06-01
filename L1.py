@@ -21,6 +21,8 @@ class L1:
     self.memory[cacheBlock]._data = data
     self.memory[cacheBlock]._state = self.nextStateCPU("write", memDir)
 
+    self.chip.busMsg("writeMiss," + str(self.processor) + "," + memDir)
+
     self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)
 
   def nextStateCPU(self, operation, memDir):
@@ -63,8 +65,14 @@ class L1:
     return(nextState)
 
   def onMemory(self, memDir):
-    for i in range(2):
+    for i in range(len(self.memory)):
       storedInCache = self.memory[i]
       if(storedInCache._memDir == memDir and (storedInCache._state == "S" or storedInCache._state == "M")):
         return(i)
     return(-1)
+
+  def checkState(self, busMessage, memDir):
+    cacheBlock = self.onMemory(memDir)
+    if(cacheBlock != -1):
+      self.memory[cacheBlock]._state = self.nextStateBus(busMessage, cacheBlock)
+      self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)

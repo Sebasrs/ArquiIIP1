@@ -29,7 +29,6 @@ class FrontEndManager:
     memoryToUse = ""
     if(processor == 0):
       if(chip == 0):
-        print("Hola")
         memoryToUse = self.P0L1C0
       elif(chip == 1):
         startingIndex = 36

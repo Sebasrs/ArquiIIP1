@@ -21,23 +21,22 @@ class Processor(threading.Thread):
       if(kind == "WRITE"):
         memAndData = fullInstruction[2].split(";")
         self.processWrite(memAndData[0], memAndData[1])
-        self.chip.L2
       if(kind == "READ"):
         self.processRead(fullInstruction[2])
       if(kind == "CALC"):
         self.processCalc()
   
   def processWrite(self, memDir, data):
-    print("Writing " + data + " on " + memDir)
     self.L1.write(memDir, data)
+    self.chip.L2.write(memDir, data, self.number)
+    self.chip.mainMemory.write(memDir, data, self.chip.chip)
+    self.chip.connectionBus.append(["writeMiss", str(self.chip.chip), memDir])
     time.sleep(15)
   
   def processRead(self, memDir):
-    print("Read")
     time.sleep(5)
   
   def processCalc(self):
-    print("Calculating")
     time.sleep(10)
       
 
