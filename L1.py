@@ -85,7 +85,6 @@ class L1:
       elif(busMsg == "invalidate"):
         nextState = "I"
     
-    logging.info('Procesador ' + str(self.processor) + " del Chip " + str(self.chip.chip) + ": " + busMsg + " en el bus de la dirección de memoria " + self.memory[cacheBlock]._memDir + ", cambiando el bloque " + str(cacheBlock) + " del estado " + self.memory[cacheBlock]._state + " al estado " + nextState)
     return(nextState)
 
   def onMemory(self, memDir):

@@ -68,9 +68,7 @@ class L2:
       if(operation == "write"):
         nextState = "DM"
       elif(operation == "read"):
-        nextState = "DS"
-      logging.info("Chip " + str(self.chip.chip) + ": " + "Operacion " + operation + " del procesador, cambiando el bloque invalido del estado I al estado " + nextState + " para guardar el dato de la direccion de memoria " + memDir)
-    
+        nextState = "DS"    
     return nextState
 
   def nextStateBus(self, busMsg, cacheBlock):
@@ -87,7 +85,6 @@ class L2:
         nextState = "DS"
       elif(busMsg == "invalidate"):
         nextState = "DI"
-    logging.info("Chip " + str(self.chip.chip) + ": " + "Se encontro un: " + busMsg + " en el bus, con la direccion de memoria " + self.memory[cacheBlock]._memDir + ", cambiando el bloque " + str(cacheBlock) + " del estado " + self.memory[cacheBlock]._state + " al estado " + nextState)
     return(nextState)
   
   def onMemory(self, memDir):
