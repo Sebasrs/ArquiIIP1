@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(filename='log.log',level=logging.INFO)
+
 class cacheBlock:
   def __init__(self):
     self._state = "I"
@@ -16,11 +20,13 @@ class L1:
   def write(self, memDir, data):
     ## Correspondencia directa
     cacheBlock = int(memDir, 2)%len(self.memory)
+    logging.info('Procesador ' + str(self.processor) + " del Chip " + str(self.chip.chip) + ": " + "Escribiendo " + data + " en el bloque de cache L1 " + memDir)
 
     self.memory[cacheBlock]._memDir = memDir
     self.memory[cacheBlock]._data = data
     self.memory[cacheBlock]._state = self.nextStateCPU("write", memDir)
 
+    logging.info('Procesador ' + str(self.processor) + " del Chip " + str(self.chip.chip) + ": " + "Write miss en el bus")
     self.chip.busMsg("writeMiss," + str(self.processor) + "," + memDir)
 
     self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)
@@ -28,11 +34,13 @@ class L1:
   def writeRead(self, memDir, data):
     ## Correspondencia directa
     cacheBlock = int(memDir, 2)%len(self.memory)
+    logging.info('Procesador ' + str(self.processor) + " del Chip " + str(self.chip.chip) + ": " + "Escribiendo " + data + " leido desde un nivel inferior en el bloque de cache: " + str(cacheBlock))
 
     self.memory[cacheBlock]._memDir = memDir
     self.memory[cacheBlock]._data = data
     self.memory[cacheBlock]._state = self.nextStateCPU("read", memDir)
 
+    logging.info('Procesador ' + str(self.processor) + " del Chip " + str(self.chip.chip) + ": " + "read miss en el bus")
     self.chip.busMsg("readMiss," + str(self.processor) + "," + memDir)
 
     self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)
@@ -52,11 +60,13 @@ class L1:
           nextState = "M"
         if(storedInCache._state == "S"):
           nextState = "S"
+      logging.info('Procesador ' + str(self.processor) + " del Chip " + str(self.chip.chip) + ": " + "Operacion " + operation + " del procesador, cambiando el bloque " + str(cacheBlock) + " del estado " + storedInCache._state + " al estado " + nextState)
     else:
       if(operation == "write"):
         nextState = "M"
       elif(operation == "read"):
         nextState = "S"
+      logging.info('Procesador ' + str(self.processor) + " del Chip " + str(self.chip.chip) + ": " + "Operacion " + operation + " del procesador, cambiando el bloque invalido del estado I al estado " + nextState + "para guardar el dato de la direccion de memoria " + memDir)
     
     return nextState
 
@@ -67,13 +77,15 @@ class L1:
         nextState = "I"
       elif(busMsg == "readMiss"):
         nextState = "S"
-    if(self.memory[cacheBlock]._state == "S"):
+    elif(self.memory[cacheBlock]._state == "S"):
       if(busMsg == "writeMiss"):
         nextState = "I"
       elif(busMsg == "readMiss"):
         nextState = "S"
       elif(busMsg == "invalidate"):
         nextState = "I"
+    
+    logging.info('Procesador ' + str(self.processor) + " del Chip " + str(self.chip.chip) + ": " + busMsg + " en el bus de la dirección de memoria " + self.memory[cacheBlock]._memDir + ", cambiando el bloque " + str(cacheBlock) + " del estado " + self.memory[cacheBlock]._state + " al estado " + nextState)
     return(nextState)
 
   def onMemory(self, memDir):

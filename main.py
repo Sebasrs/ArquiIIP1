@@ -2,6 +2,9 @@ from Chip import Chip
 from Memory import Memory
 from FrontEndManager import FrontEndManager
 import tkinter as tk
+import logging
+
+logging.basicConfig(filename='log.log',level=logging.INFO)
 
 #UI
 root = tk.Tk()
@@ -71,11 +74,14 @@ for i in range(len(tablesNames)):
 
 UIManager = FrontEndManager(stringvarsChips[0], stringvarsChips[1], stringvarsChips[2], stringvarsChips[3], stringvarsChips[4], stringvarsChips[5], stringvarsChips[6], PInstructionsVars[0], PInstructionsVars[1], PInstructionsVars[2], PInstructionsVars[3])
 
+logging.info("Memoria principal inicializada")
 mainMemory = Memory(UIManager)
 
 connectionBus = []
 
+logging.info('Chip 0 inicializado')
 chip0 = Chip(0, mainMemory, UIManager, connectionBus)
+logging.info('Chip 1 inicializado')
 chip1 = Chip(1, mainMemory, UIManager, connectionBus)
 
 chip0.start()

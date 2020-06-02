@@ -1,0 +1,65 @@
+INFO:root:Memoria principal inicializada
+INFO:root:Chip 0 inicializado
+INFO:root:Procesador 0 del Chip 0: Nueva instruccion generada: P0,0: WRITE 0110;6AAEBD7C
+INFO:root:Procesador 1 del Chip 0: Nueva instruccion generada: P1,0: READ 0011
+INFO:root:Chip 1 inicializado
+INFO:root:Procesador 0 del Chip 1: Nueva instruccion generada: P0,1: READ 0101
+INFO:root:Procesador 1 del Chip 1: Nueva instruccion generada: P1,1: READ 0111
+INFO:root:Procesador 0 del Chip 0: Procesando instruccion WRITE
+INFO:root:Procesador 1 del Chip 0: Procesando instruccion READ
+INFO:root:Procesador 0 del Chip 0: Escribiendo el dato 6AAEBD7C en la direccion de memoria 0110
+INFO:root:Procesador 1 del Chip 1: Procesando instruccion READ
+INFO:root:Procesador 1 del Chip 0: Buscando direccion: 0011
+INFO:root:Procesador 0 del Chip 1: Procesando instruccion READ
+INFO:root:Procesador 0 del Chip 0: Escribiendo 6AAEBD7C en el bloque de cache L1 0110
+INFO:root:Procesador 1 del Chip 1: Buscando direccion: 0111
+INFO:root:Procesador 1 del Chip 0: Buscando en L1: 0011
+INFO:root:Procesador 0 del Chip 1: Buscando direccion: 0101
+INFO:root:Procesador 0 del Chip 0: Operacion write del procesador, cambiando el bloque invalido del estado I al estado Mpara guardar el dato de la direccion de memoria 0110
+INFO:root:Procesador 1 del Chip 1: Buscando en L1: 0111
+WARNING:root:Procesador 1 del Chip 0: Cache miss en L1
+INFO:root:Procesador 0 del Chip 1: Buscando en L1: 0101
+INFO:root:Procesador 0 del Chip 0: Write miss en el bus
+WARNING:root:Procesador 1 del Chip 1: Cache miss en L1
+INFO:root:Procesador 1 del Chip 0: Buscando en L2: 0011
+WARNING:root:Procesador 0 del Chip 1: Cache miss en L1
+INFO:root:Procesador 1 del Chip 1: Buscando en L2: 0111
+WARNING:root:Chip 0: Cache miss en L2
+INFO:root:Procesador 0 del Chip 1: Buscando en L2: 0101
+WARNING:root:Chip 1: Cache miss en L2
+INFO:root:Chip 0: Buscando en memoria principal
+WARNING:root:Chip 1: Cache miss en L2
+INFO:root:Chip 1: Buscando en memoria principal
+INFO:root:Chip 0: Dato en memoria principal, direccion: 0011, dato: 00000000
+INFO:root:Chip 1: Buscando en memoria principal
+INFO:root:Chip 1: Dato en memoria principal, direccion: 0111, dato: 00000000
+INFO:root:Chip 1: Dato en memoria principal, direccion: 0101, dato: 00000000
+INFO:root:Chip 0:  Escribiendo 6AAEBD7C en el bloque de cache L2 0110
+INFO:root:Chip 0: Operacion write del procesador, cambiando el bloque invalido del estado I al estado DM para guardar el dato de la direccion de memoria 0110
+INFO:root:Chip 0: Escribiendo el dato 6AAEBD7C en memoria principal, direccion: 0110
+INFO:root:Procesador 1 del Chip 1: Escribiendo 00000000 leido desde un nivel inferior en el bloque de cache: 1
+INFO:root:Procesador 1 del Chip 1: Operacion read del procesador, cambiando el bloque invalido del estado I al estado Spara guardar el dato de la direccion de memoria 0111
+INFO:root:Procesador 0 del Chip 1: Escribiendo 00000000 leido desde un nivel inferior en el bloque de cache: 1
+INFO:root:Procesador 1 del Chip 1: read miss en el bus
+INFO:root:Procesador 1 del Chip 0: Escribiendo 00000000 leido desde un nivel inferior en el bloque de cache: 1
+INFO:root:Procesador 0 del Chip 1: Operacion read del procesador, cambiando el bloque invalido del estado I al estado Spara guardar el dato de la direccion de memoria 0101
+INFO:root:Procesador 1 del Chip 0: Operacion read del procesador, cambiando el bloque invalido del estado I al estado Spara guardar el dato de la direccion de memoria 0011
+INFO:root:Procesador 0 del Chip 1: read miss en el bus
+INFO:root:Procesador 1 del Chip 0: read miss en el bus
+INFO:root:Chip 1:  Escribiendo 00000000 leido desde memoria principal, posicion: 0111
+INFO:root:Chip 1: Operacion read del procesador, cambiando el bloque invalido del estado I al estado DS para guardar el dato de la direccion de memoria 0111
+INFO:root:Chip 1:  Escribiendo 00000000 leido desde memoria principal, posicion: 0101
+INFO:root:Chip 0:  Escribiendo 00000000 leido desde memoria principal, posicion: 0011
+INFO:root:Chip 1: Operacion read del procesador, cambiando el bloque invalido del estado I al estado DS para guardar el dato de la direccion de memoria 0101
+INFO:root:Chip 0: Operacion read del procesador, cambiando el bloque invalido del estado I al estado DS para guardar el dato de la direccion de memoria 0011
+INFO:root:Chip 0: Escribiendo readMiss en el bus de interconexion hacia el otro chip
+INFO:root:Procesador 1 del Chip 0: Fin de intruccion READ
+INFO:root:Chip 1: Escribiendo readMiss en el bus de interconexion hacia el otro chip
+INFO:root:Procesador 1 del Chip 1: Fin de intruccion READ
+INFO:root:Chip 1: Escribiendo readMiss en el bus de interconexion hacia el otro chip
+INFO:root:Procesador 0 del Chip 1: Fin de intruccion READ
+INFO:root:Procesador 1 del Chip 0: Nueva instruccion generada: P1,0: CALC
+INFO:root:Procesador 1 del Chip 1: Nueva instruccion generada: P1,1: READ 1001
+INFO:root:Procesador 0 del Chip 1: Nueva instruccion generada: P0,1: READ 0100
+INFO:root:Procesador 0 del Chip 0: Fin de intruccion WRITE
+INFO:root:Procesador 0 del Chip 0: Nueva instruccion generada: P0,0: WRITE 1110;8FD90A56

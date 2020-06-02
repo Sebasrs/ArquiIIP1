@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(filename='log.log',level=logging.INFO)
+
 class cacheBlockDir:
   def __init__(self):
     self._state = "DI"
@@ -16,6 +20,7 @@ class L2:
   def write(self, memDir, data, who):
     ## Correspondencia directa
     cacheBlock = int(memDir, 2)%len(self.memory)
+    logging.info("Chip " + str(self.chip.chip) + ": " + "Escribiendo " + data + " en el bloque de cache L2 " + memDir)
 
     self.memory[cacheBlock]._memDir = memDir
     self.memory[cacheBlock]._data = data
@@ -27,6 +32,8 @@ class L2:
   def writeRead(self, memDir, data, who):
     ## Correspondencia directa
     cacheBlock = int(memDir, 2)%len(self.memory)
+
+    logging.info("Chip " + str(self.chip.chip) + ": " + "Escribiendo " + data + " leido desde memoria principal, posicion: " + memDir)
 
     self.memory[cacheBlock]._memDir = memDir
     self.memory[cacheBlock]._data = data
@@ -56,11 +63,13 @@ class L2:
           nextState = "DM"
         if(storedInCache._state == "DS"):
           nextState = "DS"
+      logging.info("Chip " + str(self.chip.chip) + ": " + "Operacion " + operation + " del procesador, cambiando el bloque " + str(cacheBlock) + " del estado " + storedInCache._state + " al estado " + nextState)
     else:
       if(operation == "write"):
         nextState = "DM"
       elif(operation == "read"):
         nextState = "DS"
+      logging.info("Chip " + str(self.chip.chip) + ": " + "Operacion " + operation + " del procesador, cambiando el bloque invalido del estado I al estado " + nextState + " para guardar el dato de la direccion de memoria " + memDir)
     
     return nextState
 
@@ -78,6 +87,7 @@ class L2:
         nextState = "DS"
       elif(busMsg == "invalidate"):
         nextState = "DI"
+    logging.info("Chip " + str(self.chip.chip) + ": " + "Se encontro un: " + busMsg + " en el bus, con la direccion de memoria " + self.memory[cacheBlock]._memDir + ", cambiando el bloque " + str(cacheBlock) + " del estado " + self.memory[cacheBlock]._state + " al estado " + nextState)
     return(nextState)
   
   def onMemory(self, memDir):

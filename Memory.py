@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(filename='log.log',level=logging.INFO)
+
 class memoryBlock:
   def __init__(self, memDir):
     self._memDir = memDir
@@ -14,6 +18,7 @@ class Memory:
     self.UIManager.updateTableMainMemory(self.memory)
 
   def write(self, memDir, data, chipNumber):
+    logging.info("Chip " + str(chipNumber) + ": Escribiendo el dato " + data + " en memoria principal, direccion: " + memDir)
     self.memory[int(memDir,2)]._data = data
     self.memory[int(memDir,2)]._state = "DM"
     self.memory[int(memDir,2)]._owners = ["C" + str(chipNumber)]

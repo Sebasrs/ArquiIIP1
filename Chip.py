@@ -2,6 +2,9 @@ from Processor import Processor
 from L2 import L2
 import threading
 import time
+import logging
+
+logging.basicConfig(filename='log.log',level=logging.INFO)
 
 class Chip(threading.Thread):
   def __init__(self, number, mainMemory, UIManager, connectionBus):
@@ -21,7 +24,6 @@ class Chip(threading.Thread):
     while(1):
       if(len(self.connectionBus) != 0):
         if(self.connectionBus[0][1] != str(self.chip)):
-          print("Message: " + self.connectionBus[0][0] + " from chip: " + self.connectionBus[0][1] + " on direction " + self.connectionBus[0][2] + " printed from chip: " + str(self.chip))
           for i in range(len(self.procesors)):
             self.procesors[i].L1.checkState(self.connectionBus[0][0], self.connectionBus[0][2])
           self.L2.checkState(self.connectionBus[0][0], self.connectionBus[0][2])
