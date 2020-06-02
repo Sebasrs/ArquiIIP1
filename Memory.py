@@ -1,7 +1,7 @@
 class memoryBlock:
   def __init__(self, memDir):
     self._memDir = memDir
-    self._data = "0"
+    self._data = "00000000"
     self._state = "DI"
     self._owners = []
 
@@ -21,3 +21,12 @@ class Memory:
 
   def read(self, memDir):
     return self.memory[memDir]._data
+
+  def addOwner(self, owner, memDir):
+    if(owner not in self.memory[memDir]._owners):
+      self.memory[memDir]._owners.append(owner)
+      self.UIManager.updateTableMainMemory(self.memory)
+
+  def setState(self, state, memDir):
+    self.memory[memDir]._state = state
+    self.UIManager.updateTableMainMemory(self.memory)

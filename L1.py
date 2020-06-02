@@ -25,6 +25,18 @@ class L1:
 
     self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)
 
+  def writeRead(self, memDir, data):
+    ## Correspondencia directa
+    cacheBlock = int(memDir, 2)%len(self.memory)
+
+    self.memory[cacheBlock]._memDir = memDir
+    self.memory[cacheBlock]._data = data
+    self.memory[cacheBlock]._state = self.nextStateCPU("read", memDir)
+
+    self.chip.busMsg("readMiss," + str(self.processor) + "," + memDir)
+
+    self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)
+
   def nextStateCPU(self, operation, memDir):
     cacheBlock = self.onMemory(memDir)
     nextState = "I"
@@ -76,3 +88,8 @@ class L1:
     if(cacheBlock != -1):
       self.memory[cacheBlock]._state = self.nextStateBus(busMessage, cacheBlock)
       self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)
+
+  def dataHitUpdate(self, index):
+    self.memory[index]._state = self.nextStateCPU("read", self.memory[index]._memDir)
+
+    self.chip.UIManager.updateTableL1(self.processor, self.chip.chip, self.memory)

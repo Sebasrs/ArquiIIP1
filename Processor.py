@@ -34,7 +34,29 @@ class Processor(threading.Thread):
     time.sleep(15)
   
   def processRead(self, memDir):
-    time.sleep(5)
+    print("read on memDir " + memDir)
+    L1Index = self.L1.onMemory(memDir)
+    if(L1Index != -1):
+      print("Hit L1!!!!")
+      self.L1.dataHitUpdate(L1Index)
+      time.sleep(1)
+    else:
+      L2Index = self.chip.L2.onMemory(memDir)
+      if(L2Index != -1):
+        print("Hit L2!!!!")
+        self.chip.L2.dataHitUpdate(L2Index, "C" + str(self.chip.chip) + "P" + str(self.number))
+        data = self.chip.L2.memory[L2Index]._data
+        self.L1.writeRead(memDir, data)
+        time.sleep(3)
+      else:
+        print("To memory!!!!!")
+        data = self.chip.mainMemory.memory[int(memDir, 2)]._data
+        self.chip.mainMemory.addOwner("C" + str(self.chip.chip), int(memDir, 2))
+        self.L1.writeRead(memDir, data)
+        self.chip.L2.writeRead(memDir, data, self.number)
+        self.chip.mainMemory.setState(self.chip.L2.memory[self.chip.L2.onMemory(memDir)]._state, int(memDir, 2))
+        time.sleep(9)
+    self.chip.connectionBus.append(["readMiss", str(self.chip.chip), memDir])
   
   def processCalc(self):
     time.sleep(10)
